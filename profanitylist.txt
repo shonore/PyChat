@@ -76,6 +76,7 @@ nigga|illegal
 niggaz|illegal
 nigger|illegal
 niggers|illegal
+penis|warning
 p.iss-flaps|illegal
 p@kis|warning
 p00f|warning
