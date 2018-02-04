@@ -32,4 +32,4 @@ class Words()
             #user search function here
         except:
             print("Error! Unable to open the input file.")
-        if fileName == "profanitylist.txt":
+        if fileName == "test-username.txt":
