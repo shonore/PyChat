@@ -6,6 +6,8 @@ import select
 from Tkinter import *
 import thread
 from random import randint
+from modules.word import Word #importing the custom word class to read, input, and, update data
+
 
 limit=80               #amount of lines kept inside the window
 PORT=8888              #chose a high number random port that is not likely used by another app
