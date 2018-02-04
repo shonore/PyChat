@@ -7,24 +7,35 @@ import errno
 import fileinput, optparse
 
 #a Word class that will contain function for manipulating word records from in input files
-class Words(object):
+class Word():
     #constructor. Takes the file name and the chat message as the arguments. They are initially set to blank
-    def __init__ (self, fileName=None, chatMsg=None):
-        self.current = ""
+    def __init__ (self, fileName):
         self.fileName = fileName
-        self.chatMsg = chatMsg
+        print self.fileName
     #a function to search for a word in input file and compares it to the input word
-    def searchWord(keyWord, fileName):
+    def searchWord(self,keyWord):
         errorMsg = "No match found"
         #open the file for read and iterate through each line until a match is found
-        with open(fileName, "r") as f:
-            lines = f.readlines()
+        lines = open(self.fileName).read().splitlines()
+        print("file was opened")
+        print lines
+        if keyWord in lines:
+            print(str(keyWord) + " is in the file")
+        else:
+            print(str(keyWord) + " is not in the file")
+
     #a function to append a unquie new word to a file
-    def insertNewWord(newWord, fileName):
+    def insertNewWord(newWord):
         #first open the file to append a new value
         try:
-            f = open(fileName, "a")
-            #check if the word already exists do not insert into file and notify user
-            #user search function here
+            f = open(self.fileName, "a")
         except:
             print("Error! Unable to open the input file.")
+        #check if the word already exists. If does not, then insert into file and notify user
+        if searchWord(newWord) == FALSE:
+            f.append(self.fileName)
+            print("insert successful")
+            f.close()
+        else:
+            print("insert fail")
+            f.close()
