@@ -6,6 +6,7 @@ from socket import *
 import select
 import thread
 import errno
+import modules.word #importing the custom word class to read, input, and, update data
 
 PORT=8888
 s = socket(AF_INET, SOCK_STREAM)
