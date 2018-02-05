@@ -33,6 +33,12 @@ def listening(conn,addr,username):
      temp=conn.recv(1024)
    except:
      return
+   #the word filter logic would go here
+   profanityFile = "profanityList.txt" #passing in the profanity list string, but it will not be processed with Sudha's logic. She uses a dictionary to store the profanity list
+   msgFilter = Word(profanityFile)
+   dirtyTemp = temp
+   temp = msgFilter.profanityFilter(dirtyTemp)
+   
    #when the message is displayed in the chat window we want to include the associated username
    messageClient=username+": "+temp+" "
    messageServer=username+": "+temp+" "
