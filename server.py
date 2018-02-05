@@ -34,11 +34,10 @@ def listening(conn,addr,username):
    except:
      return
    #the word filter logic would go here
-   profanityFile = "profanityList.txt" #passing in the profanity list string, but it will not be processed with Sudha's logic. She uses a dictionary to store the profanity list
-   msgFilter = Word(profanityFile)
+   msgFilter = Word()
    dirtyTemp = temp
-   temp = msgFilter.profanityFilter(dirtyTemp)
-   
+   temp = msgFilter.profanityFilter(dirtyTemp, username)
+
    #when the message is displayed in the chat window we want to include the associated username
    messageClient=username+": "+temp+" "
    messageServer=username+": "+temp+" "
@@ -110,10 +109,10 @@ def manager():
      #Here is the logic for read/insert of username.txt files with the given username
      userNameFile = 'test-username.txt' #this is a hardcoded value
      #1. Create a new instance of the word class
-     wordValue = Word(userNameFile)
+     wordValue = Word()
      #2.get input username from the users
      #3.check to see if the user name already exists in the username.txt files
-     wordValue.searchWord(username)
+     wordValue.searchWord(username, userNameFile)
      #4. If the username does exisit in the file, check to see if it is in the blacklist.txt files
      #5. If the username is not in the blacklist.txt file and not in the username.txt file, insert the username into the username.txt files
      #for i in range (0,(len(clients)/4)):
