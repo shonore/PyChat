@@ -35,12 +35,18 @@ class Word():
             print("Error! Unable to open the input file.")
         #check if the word already exists. If does not, then insert into file and notify user
         wordFlag = self.searchWord(newWord, filename)
-        if wordFlag == False:
-            f.write(newWord+"|")
-            print("insert successful")
-            f.close()
-        else:
-            print("insert fail")
+        try:
+            if wordFlag == False and filename == "blacklist.txt":
+                f.write(newWord+"\n")
+                print("insert successful in blacklist.txt file")
+            else:
+                print("insert fail in blacklist.txt")
+            if wordFlag == False and filename == "username.txt":
+                f.write(str(newWord)+"\n")
+                print("insert successful in "+filename)
+            else:
+                print("insert fail in username.txt file")
+        finally:
             f.close()
     def profanityFilter(self,message, username):
             dict={"warning":("(ock|","[ock|","a.rse|","ar5h0le|","ar5h0les|","ars3|","arse hole|","basterd|","basyard|","basyards|","battyboy|","bum bandit|",

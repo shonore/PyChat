@@ -39,12 +39,11 @@ def listening(conn,addr,username):
    filteredMsg = msgFilter.profanityFilter(dirtyTemp, username)
    temp = filteredMsg[0]
    badUser = filteredMsg[1]
-   blackListCheck = msgFilter.searchWord(badUser,"blackList.txt")
-   if blackListCheck == True:
-       messageClient=username+": "+temp+" "
-       messageServer=username+": "+temp+" "
-       leaveMessage=username+" left the chat"
-       msgFilter.removeConnection
+   #if badUser == "":
+       #messageClient=username+": "+temp+" "
+       #messageServer=username+": "+temp+" "
+       #leaveMessage=username+" left the chat"
+       #msgFilter.removeConnection
    #when the message is displayed in the chat window we want to include the associated username
    messageClient=username+": "+temp+" "
    messageServer=username+": "+temp+" "
@@ -122,7 +121,6 @@ def manager():
      userInfo = "username: "+username+"status: "+status+" "
      userStatus.append(userInfo) #print current users to the console
      joinMessage = username+" joined the chat. Type @[username] for direct messages and -userlist to view other users"
-
      #notify all clients that a new user has joined and print to the server that the user joined
      print username+" joined the chat"
      #send the username to the userlist in the client chat windows as well as the welcome message
@@ -131,7 +129,7 @@ def manager():
          #clients[i*4].send(str(clients[i*4+2]).encode()+": "+clients[i*4+3].encode())
          clients[i*4].send(joinMessage.encode())  #need to encode the data before server can send it
        except error as e:
-         print "Error"
+         print "Error. Cannot send the join message"
          break
  return
 
