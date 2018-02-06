@@ -7,6 +7,9 @@ import select
 import thread
 import errno
 from modules.word import Word #importing the custom word class to read, input, and, update data
+import pdb
+
+pdb.set_trace() #for debugging
 
 PORT=8888
 s = socket(AF_INET, SOCK_STREAM)
@@ -38,13 +41,9 @@ def listening(conn,addr,username):
    dirtyTemp = temp
    filteredMsg = msgFilter.profanityFilter(dirtyTemp, username)
    temp = filteredMsg[0]
-   badUser = filteredMsg[1]
-   blackListCheck = msgFilter.searchWord(badUser,"blackList.txt")
-   if blackListCheck == True:
-       messageClient=username+": "+temp+" "
-       messageServer=username+": "+temp+" "
-       leaveMessage=username+" left the chat"
-       msgFilter.removeConnection
+   evalCode = filteredMsg[1]
+   print temp
+   print evalCode
    #when the message is displayed in the chat window we want to include the associated username
    messageClient=username+": "+temp+" "
    messageServer=username+": "+temp+" "
@@ -81,6 +80,25 @@ def listening(conn,addr,username):
          except:
            errorMsg="Error. Cannot retieve user list"
            clients[usrListConn].sendall(str(errorMsg), usrListAddr)
+   try:
+     #send the message to all connected clients
+     clients[i*4].send(messageClient)
+   except:
+     pass
+   #then send the termination code to terminate the connection the the bad client
+   if evalCode == True:
+     termMsg = "terminate client \n"
+     print("requesting termination of "+username)
+     #send the shutdown signal to the client that used the illegal words
+     #iterate through the list of connected clients
+     for client in clients:
+       if client == username:
+       #get the client connection
+         print("the user that will be terminated is "+client)
+         clientConn = clients.index(client)-2
+         print clientConn
+          #send termination message to the specific client that entered the profanity word
+         clients[clientConn].send(termMsg.encode())
      #for direct message
      if "@"+str(client) in messageClient:
        flag = 1
@@ -122,7 +140,6 @@ def manager():
      userInfo = "username: "+username+"status: "+status+" "
      userStatus.append(userInfo) #print current users to the console
      joinMessage = username+" joined the chat. Type @[username] for direct messages and -userlist to view other users"
-
      #notify all clients that a new user has joined and print to the server that the user joined
      print username+" joined the chat"
      #send the username to the userlist in the client chat windows as well as the welcome message
@@ -131,7 +148,7 @@ def manager():
          #clients[i*4].send(str(clients[i*4+2]).encode()+": "+clients[i*4+3].encode())
          clients[i*4].send(joinMessage.encode())  #need to encode the data before server can send it
        except error as e:
-         print "Error"
+         print "Error. Cannot send the join message"
          break
  return
 
