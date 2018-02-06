@@ -5,6 +5,9 @@ import sys
 from string import *
 import errno
 import fileinput, optparse
+import pdb
+
+pdb.set_trace() #for debugging
 
 #a Word class that will contain function for manipulating word records from in input files
 class Word():
@@ -16,28 +19,35 @@ class Word():
         flag = False
         errorMsg = "No match found"
         #open the file for read and iterate through each line until a match is found
-        lines = open(filename).read().splitlines()
-        print(str(filename)+" was opened")
-        if keyWord in lines:
-            print(str(keyWord) + " is in the file")
-            flag = True
-            return flag
-        else:
-            print(str(keyWord) + " is not in the file")
-            return flag
-        #self.fileName.close() #close the file when you are done processing it
+        try:
+            f = open(filename)
+            lines = f.read().splitlines()
+            print(str(filename)+" was opened")
+            if keyWord in lines:
+                print(str(keyWord) + " is in the file")
+                flag = True
+                return flag
+            else:
+                print(str(keyWord) + " is not in the file")
+                return flag
+        finally:
+            f.close()
+            print(filename+" was closed.")
+
     #a function to append a unquie new word to a file
     def insertWord(self,newWord, filename):
-        #first open thse file to append a new value
-        try:
-            f = open(filename, "a")
-        except:
-            print("Error! Unable to open the input file.")
         #check if the word already exists. If does not, then insert into file and notify user
         wordFlag = self.searchWord(newWord, filename)
         try:
+            f = open(filename, "a")
+            print(filename + " was opened")
+        except:
+            print("Error! Unable to open "+filename)
+        try:
+            print wordFlag
+            print filename
             if wordFlag == False and filename == "blacklist.txt":
-                f.write(newWord+"\n")
+                f.write(str(newWord)+"\n")
                 print("insert successful in blacklist.txt file")
             else:
                 print("insert fail in blacklist.txt")
@@ -45,10 +55,11 @@ class Word():
                 f.write(str(newWord)+"\n")
                 print("insert successful in "+filename)
             else:
-                print("insert fail in username.txt file")
+                print("The username is already in the file. Insert fail in username.txt file")
         finally:
             f.close()
-    def profanityFilter(self,message, username):
+    def profanityFilter(self,message,username):
+            evalCode = False
             dict={"warning":("(ock|","[ock|","a.rse|","ar5h0le|","ar5h0les|","ars3|","arse hole|","basterd|","basyard|","basyards|","battyboy|","bum bandit|",
                             "bum hole|","bumbandit|","bum-bandit|","cvnt|","ities|","k@ffir|","k@ffirs|","jungle bunny|","twatt|","twattish|","twunt|",
                             "nig nog|","p00f|","pp@kis|","00fs|","p00fter|","po0f|","poff|","towel head|","cvnts|","darkie|""darky|","dick&nbsp;head|"
@@ -65,18 +76,16 @@ class Word():
                         val2=word+"|"
                     if(val2 in values and "warning" == key):
                         message = "warning!watch your language"
-                        return message, username
+                        return message, evalCode
                     if(val2 in values and key=="illegal"):
                         message = "You have used an illegal word. You will be banned from the chat room. Goodbye!"
                         #add logic for inserting username into the blacklist.txt files
                         #check to see if the file is open
-                        self.insertWord(username, "blackList.txt")
-                        print("after the insert")
-                        return message, username
-            return message, username
-    #a function to remove the connection
-    def removeConnection(self):
-        sys.exit()
+                        self.insertWord(username, "blacklist.txt")
+                        evalCode = True
+                        print("after the insert in blacklist.txt")
+                        return message, evalCode
+            return message, evalCode
     #def login(self, username):
         #while(True):
             #x=username

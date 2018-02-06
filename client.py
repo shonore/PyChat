@@ -7,7 +7,9 @@ from Tkinter import *
 import thread
 from random import randint
 from modules.word import Word #importing the custom word class to read, input, and, update data
+import pdb
 
+pdb.set_trace() #for debug mode
 
 limit=80               #amount of lines kept inside the window
 PORT=8888              #chose a high number random port that is not likely used by another app
@@ -37,6 +39,14 @@ def listening():
      if "('username:" in temp:
        userDisplay.insert(END,temp)
        userDisplay.see(END)
+     #This is where the shutdown signal is executed
+     print temp
+     if "terminate client" in temp:
+       print("terminating connection to server...")
+       import tkMessageBox
+       tkMessageBox.showerror("Chat","Your connection to the chat room has been terminated. Goodbye!")
+       print("termination was terminated.")
+       chatWindow.destroy()
  except:
    return
 #a function for transmitting messages sent by the given username
