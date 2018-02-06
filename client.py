@@ -89,7 +89,7 @@ pole.config(width=70, fg="black", bg="#ffffff")
 pole.grid()
 import tkSimpleDialog
 #When the client starts they are assigned a user name
-username="User"+str(randint(1000,9000))
+username=tkSimpleDialog.askstring("Chat", "Your name:")
 try:
  strip(username)
 except:
