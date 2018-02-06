@@ -36,7 +36,7 @@ def listening(conn,addr,username):
    #the word filter logic would go here
    msgFilter = Word()
    dirtyTemp = temp
-   temp = msgFilter.profanityFilter(dirtyTemp, username)
+   temp = msgFilter.profanityFilter(dirtyTemp, username,conn)
 
    #when the message is displayed in the chat window we want to include the associated username
    messageClient=username+": "+temp+" "

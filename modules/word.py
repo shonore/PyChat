@@ -43,7 +43,7 @@ class Word():
         else:
             print("insert fail")
             f.close()
-    def profanityFilter(self,message, username):
+    def profanityFilter(self,message, username, conn):
             dict={"warning":("(ock|","[ock|","a.rse|","ar5h0le|","ar5h0les|","ars3|","arse hole|","basterd|","basyard|","basyards|","battyboy|","bum bandit|",
                             "bum hole|","bumbandit|","bum-bandit|","cvnt|","ities|","k@ffir|","k@ffirs|","jungle bunny|","twatt|","twattish|","twunt|",
                             "nig nog|","p00f|","pp@kis|","00fs|","p00fter|","po0f|","poff|","towel head|","cvnts|","darkie|""darky|","dick&nbsp;head|"
@@ -53,19 +53,60 @@ class Word():
                             "mohterfuck|","mohterfucker|","mohterfuckers|","mohterfucking|","mohterfucks|","mohterfuk|","mohterfukcer|","mohterfukcers|",
                             "mohterfuking|","mohterfuks|","muthafuckers|","muthafucking|","muthafucks|","muthafukas|","nig nog|","f^ck|","f^cker|",
                             "f^cking|","asshole|","asswipe|","blowjob|","blow-job|","titties|","whore|","dick|")}
-
             val2=message.split()
             for word in val2:
-              for key,values in dict.items():
-                  for words in values:
-                      val2=word+"|"
-                  if(val2 in values and "warning" == key):
-                     message = "warning!watch your language"
-                     return message
-                  if(val2 in values and key=="illegal"):
-                     message = "You have used an illegal word. You will be banned from the chat room. Goodbye!"
-                     #add logic for inserting username into the blacklist.txt files
-                     self.insertWord(username, "blacklist.txt")
-                     return message
-                     #remove(conn)
+                for key,values in dict.items():
+                    for words in values:
+                        val2=word+"|"
+                    if(val2 in values and "warning" == key):
+                        message = "warning!watch your language"
+                        return message
+                    if(val2 in values and key=="illegal"):
+                        message = "You have used an illegal word. You will be banned from the chat room. Goodbye!"
+                        #add logic for inserting username into the blacklist.txt files
+                        self.insertWord(username, "blacklist.txt")
+                        return message
+                        #remove(conn)
             return message
+    #def login():
+        #w=Word("test-usernames.txt")
+        #while(1):
+            #x=raw_input("Please enter your username to login:   ")
+            #if(w.searchWord(x)==True):
+                #return x
+            #else:
+                #print("oops! we dont have that username on file, you may have mistyped it!, try again:  ")
+                #continue
+
+
+    #def createNewAccount():
+        #username=""
+        #w=Word("test-usernames.txt")
+        #while(1):
+            #username = str(raw_input('Please enter a username less than sixteen characters:   '))
+            #if(w.searchWord(username)==True):
+                #print("That username is already taken, please enter a different one:   ")
+                #continue
+            #if len(username)>16:
+                #continue
+            #break
+        #w.insertNewWord(username)
+        #return username
+
+#add this code to the client.py files
+#if(z)==0:
+    #username=login()
+#else:
+    #username=createNewAccount()
+#This is the remove function
+#def removeWord(self,rword):
+    #try:
+        #f=open(self.fileName,"r")
+    #except:
+        #print("Error! Will not open file")
+    #lines = f.readlines()
+    #f.close()
+    #f=open(self.fileName,'w')
+    #for line in lines:
+        #if line!=rword+"\n":
+            #f.write(line)
