@@ -36,8 +36,15 @@ def listening(conn,addr,username):
    #the word filter logic would go here
    msgFilter = Word()
    dirtyTemp = temp
-   temp = msgFilter.profanityFilter(dirtyTemp, username,conn)
-
+   filteredMsg = msgFilter.profanityFilter(dirtyTemp, username)
+   temp = filteredMsg[0]
+   badUser = filteredMsg[1]
+   blackListCheck = msgFilter.searchWord(badUser,"blackList.txt")
+   if blackListCheck == True:
+       messageClient=username+": "+temp+" "
+       messageServer=username+": "+temp+" "
+       leaveMessage=username+" left the chat"
+       msgFilter.removeConnection
    #when the message is displayed in the chat window we want to include the associated username
    messageClient=username+": "+temp+" "
    messageServer=username+": "+temp+" "
@@ -105,16 +112,6 @@ def manager():
        break
    if old==0:
      status = "online"
-     #validate to see if the username already exists. If it does, assign another username **
-     #Here is the logic for read/insert of username.txt files with the given username
-     userNameFile = 'test-username.txt' #this is a hardcoded value
-     #1. Create a new instance of the word class
-     wordValue = Word()
-     #2.get input username from the users
-     #3.check to see if the user name already exists in the username.txt files
-     wordValue.searchWord(username, userNameFile)
-     #4. If the username does exisit in the file, check to see if it is in the blacklist.txt files
-     #5. If the username is not in the blacklist.txt file and not in the username.txt file, insert the username into the username.txt files
      #for i in range (0,(len(clients)/4)):
          #if username == clients[i*4+2]:
            #username="User"+str(randint(1000,9000))

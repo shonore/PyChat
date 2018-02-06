@@ -89,15 +89,35 @@ pole.config(width=70, fg="black", bg="#ffffff")
 pole.grid()
 import tkSimpleDialog
 #When the client starts they are assigned a user name
-username=tkSimpleDialog.askstring("Chat", "Your name:")
+username=tkSimpleDialog.askstring("Chat", "Enter your username to login:")
 try:
  strip(username)
 except:
  sys.exit()
 if username=="":
+ import tkMessageBox
  #if there is no user name entered, then the user cannot join the chat room
  tkMessageBox.showerror("Chat", "No user name entered. Cannot join chat room")
  sys.exit()
+ #validate to see if the username already exists. If it does, assign another username **
+ #Here is the logic for read/insert of username.txt files with the given username
+ #1. Create a new instance of the word class
+ wordValue = Word()
+
+ #2.If the username does exist in the file, check to see if it is in the blacklist.txt files
+ badCheck = wordValue.searchWord(username, "blacklist.txt")
+ #3. Check to see if the user name already exists in the username.txt files
+ if badCheck == False:
+     #userCheck = wordValue.searchWord(username, "test-username.txt")
+     #if userCheck == False:
+         #4. If the username is not in the blacklist.txt file and not in the username.txt file, insert the username into the username.txt files
+    wordValue.insertNewWord(username, "test-username.txt")
+    # else:
+         #tkMessageBox.showerror("Chat", "This username already exists. Enter another username")
+else:
+    import tkMessageBox
+    tkMessageBox.showerror("Chat", "You are on the blacklist. You cannot join the chat.")
+    sys.exit()
 pole.focus()
 
 #send the username to the connected server
