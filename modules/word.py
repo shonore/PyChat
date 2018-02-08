@@ -7,7 +7,7 @@ import errno
 import fileinput, optparse
 import pdb
 
-pdb.set_trace() #for debugging
+#pdb.set_trace() #for debugging
 
 #a Word class that will contain function for manipulating word records from in input files
 class Word():
