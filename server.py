@@ -9,7 +9,7 @@ import errno
 from modules.word import Word #importing the custom word class to read, input, and, update data
 import pdb
 
-pdb.set_trace() #for debugging
+#pdb.set_trace() #for debugging
 
 PORT=8888
 s = socket(AF_INET, SOCK_STREAM)
