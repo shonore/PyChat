@@ -9,7 +9,7 @@ from random import randint
 from modules.word import Word #importing the custom word class to read, input, and, update data
 import pdb
 
-pdb.set_trace() #for debug mode
+#pdb.set_trace() #for debug mode
 
 limit=80               #amount of lines kept inside the window
 PORT=8888              #chose a high number random port that is not likely used by another app
